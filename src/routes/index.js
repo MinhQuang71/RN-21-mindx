@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
     client.collection("users").find({}).toArray( (err, result) => {
       console.log(result)
       res.status(200).json({
-        message: "Hello Stupid!",
+        message: "Hello World!",
         result: result
       })
     })
