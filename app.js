@@ -1,37 +1,22 @@
-require("dotenv").config()
-var createError = require('http-errors');
-var express = require('express');
-var logger = require('morgan');
-var indexRouter = require('./src/routes/index');
-var usersRouter = require('./src/routes/users');
+let express = require("express")
+let logger = require("morgan")
+let fs = require("fs") // file stream
+let app = express()
+let main = require("./src/routing")
 
-var app = express();
+// middleware
+// general middleware
+app.use(express.json()) // body parser
+app.use(logger("dev"))
+app.use(main)
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  console.log(err)
+//outer-most error handler
+let error_handler = (err, req, res, next) => {
   res.status(500).json({
-    message : "Internal Server Error",
-    error: err.mesage
+    message: err.message
   })
-});
+}
+app.use(error_handler)
+
 
 module.exports = app;

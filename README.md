@@ -23,3 +23,4 @@ GET POST PUT PATCH DELETE
 -put/patch: changes existed data at the server
 -delete: delete existed data at the server
 
+-> may behavior hoan toan phu thuoc vao nguoi code 
