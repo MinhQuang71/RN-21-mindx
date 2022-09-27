@@ -3,7 +3,7 @@ let logger = require("morgan")
 let fs = require("fs") // file stream
 let app = express()
 let main = require("./src/routing")
-
+let connectDB = require('./src/helper/connect')
 // middleware
 // general middleware
 app.use(express.json()) // body parser
@@ -12,7 +12,8 @@ app.use(main)
 
 //outer-most error handler
 let error_handler = (err, req, res, next) => {
-  res.status(500).json({
+  console.error(err)
+  res.json({
     message: err.message
   })
 }

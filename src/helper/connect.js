@@ -18,8 +18,6 @@ function connectDB() {
         const DB_NAME = process.env.DB_NAME
         client.connect(err => {
             if (err) {
-                console.log("FUCKING err")
-                console.log(err)
                 reject(err)
                 client.close()
             }
