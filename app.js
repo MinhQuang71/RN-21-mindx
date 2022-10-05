@@ -3,7 +3,8 @@ let logger = require("morgan")
 let fs = require("fs") // file stream
 let app = express()
 let main = require("./src/routing")
-let connectDB = require('./src/helper/connect')
+let {connectDB} = require('./src/helper/connect')
+connectDB()
 // middleware
 // general middleware
 app.use(express.json()) // body parser
@@ -18,6 +19,5 @@ let error_handler = (err, req, res, next) => {
   })
 }
 app.use(error_handler)
-
 
 module.exports = app;

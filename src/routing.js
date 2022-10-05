@@ -21,7 +21,8 @@ let mw = (req, res, next) => {
     res.json({ message: "fail b/c mw"})
 }
 mainRouter.post("/sign-up", createUser) // dang ky
-mainRouter.post("/sign-in", authenticateUser)             // dang nhap
+mainRouter.post("/sign-in", authenticateUser)   // dang nhap
+
 mainRouter.get("/user",mw,getUser)
 mainRouter.get("/user/:id",getUserById)  
 

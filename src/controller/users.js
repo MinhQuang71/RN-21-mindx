@@ -1,7 +1,9 @@
 let fs = require("fs")
 const { encode } = require("punycode")
 let {HTTPError} = require('../exception/HTTPException')
+const { connectDB } = require("../helper/connect")
 let {encodeToken} = require("./../helper/authenticate")
+let {db} = require('./../helper/connect')
 let getUser = (req, res) => {
     // res.json({ message: "hi" })
     res.status(404)
@@ -21,13 +23,8 @@ let getUserById = (req, res) => {
     }
 }
 
-let createUser = (req, res) => {
-    // phai co middleware express.json()
-    let users = fs.readFileSync("data/users.json", { encoding: 'utf-8' })
-    users = JSON.parse(users)
-
+let createUser = async (req, res) => {
     let user = {
-        id: req.body.id,
         email: req.body.email,
         name: req.body.name,
         address: req.body.address,
@@ -37,16 +34,14 @@ let createUser = (req, res) => {
     // involve logic
     //email unique
     //password validation -> 8char
-    let emailList = users.map(e=>e.email)
-    if (emailList.includes(credentials.email)) throw new HTTPError(400,"Email already existed")
-    if (user.password.length < 8) throw new HTTPError(400,"Password is not strong")
-    // return exception
-    // got wrong logic
-    users.push(user)
-    let usersStr = JSON.stringify(users)
-    fs.writeFileSync("data/users.json", usersStr, { encoding: 'utf-8' })
-    res.status(201).json({ message: "Created!!!" })
-
+    
+    let result = await db.db.collection("user").find({
+        "email": user.email
+    })
+    console.log(result)
+    //await db.db.collection("user").insert(user)
+    // session
+    //
 }
 let authenticateUser = (req, res) => {
     let credentials = {
